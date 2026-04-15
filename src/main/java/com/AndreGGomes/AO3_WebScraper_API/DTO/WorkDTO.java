@@ -1,5 +1,6 @@
 package com.AndreGGomes.AO3_WebScraper_API.DTO;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +15,11 @@ public record WorkDTO(
         List<String> characterList, //
         List<String> additionalTagsList, //
         String workLanguage, //
-        String publishingDate,//
-        String lastUpdateDate,//
-        String wordCount, //
-        String workKudos,//
-        String workHits, //
-        String chapters // // Ex: "10 / 12"
+        LocalDate publishingDate,//
+        LocalDate lastUpdateDate,//
+        Integer wordCount, //
+        Integer workKudos,//
+        Integer workHits, //
+        String chapters // Must be a string bcause has the format: "10/12"
 ) {
 }

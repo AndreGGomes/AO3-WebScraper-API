@@ -13,17 +13,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.AndreGGomes.AO3_WebScraper_API.Util.ParserUtil.parseDate;
+import static com.AndreGGomes.AO3_WebScraper_API.Util.ParserUtil.parseInteger;
+import static com.AndreGGomes.AO3_WebScraper_API.Util.UrlBuilderUtil.buildWorkUrl;
+
 @Component
 public class WorkScraper {
-    private static final String BASE_URL = "https://archiveofourown.org/works/";
 
     public WorkDTO fetchWork(String workId) {
-        String finalUrl = buildUrl(workId);
+        String finalUrl = buildWorkUrl(workId);
 
         // Inicia o Document como nulo
         Document doc = null;
 
-        // trying to fetch the html from the website
+        // trying to fetch the HTML from the website
         try {
             Connection.Response response = Jsoup.connect(finalUrl)
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
@@ -94,21 +97,13 @@ public class WorkScraper {
                 characterList,
                 additionalTagsList,
                 workLanguage,
-                publishingDate,
-                lastUpdateDate,
-                wordCount,
-                kudosCount,
-                hitsCount,
+                parseDate(publishingDate).orElse(null),
+                parseDate(lastUpdateDate).orElse(null),
+                parseInteger(wordCount).orElse(-1),
+                parseInteger(kudosCount).orElse(-1),
+                parseInteger(hitsCount).orElse(-1),
                 chapters
         );
     }
 
-    private String buildUrl(String workId){
-        String finalUrl = "";
-        if (workId != null && !workId.isEmpty()){
-            finalUrl = BASE_URL + workId + "?view_full_work=true";
-        }
-
-        return finalUrl;
-    }
 }
