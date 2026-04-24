@@ -20,12 +20,9 @@ public class ScraperController {
 
     @GetMapping("/work/{id}")
     public ResponseEntity<WorkDTO> getWork(@PathVariable String id){
-        try {
-            WorkDTO work = scraperService.getWorkById(id);
-            return ResponseEntity.ok(work);
-        } catch (RuntimeException e){
-            return ResponseEntity.notFound().build();
-        }
+        // RuntimeExceptions will be treated by GlobalExceptionHandler class
+        WorkDTO work = scraperService.getWorkById(id);
+        return ResponseEntity.ok(work);
     }
 
 }
